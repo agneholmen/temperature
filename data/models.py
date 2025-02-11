@@ -7,7 +7,7 @@ class Point(models.Model):
     def __str__(self):
         return self.name
 
-class Temperature(models.Model):
-    temperature = models.FloatField(blank=False)
+class Measurement(models.Model):
     point = models.ForeignKey(Point, on_delete=models.CASCADE)
+    temperature = models.FloatField(blank=False)
     time = models.DateTimeField()
