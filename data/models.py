@@ -10,4 +10,4 @@ class Point(models.Model):
 class Measurement(models.Model):
     point = models.ForeignKey(Point, on_delete=models.CASCADE)
     temperature = models.FloatField(blank=False)
-    time = models.DateTimeField()
+    time = models.DateTimeField(auto_now_add=True)
