@@ -6,3 +6,9 @@ def home(request):
         request,
         'data/home.html'
     )
+
+def statistics(request):
+    return render(
+        request,
+        'data/statistics.html'
+    )
