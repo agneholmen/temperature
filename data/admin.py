@@ -4,9 +4,9 @@ from .models import Point, Measurement
 
 @admin.register(Point)
 class PointAdmin(admin.ModelAdmin):
-    list_display = ['name', 'description']
+    list_display = ['id', 'name', 'description']
 
 
 @admin.register(Measurement)
 class MeasurementAdmin(admin.ModelAdmin):
-    list_display = ['point', 'temperature', 'time']
+    list_display = ['id', 'point', 'temperature', 'time']
