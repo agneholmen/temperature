@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import datetime
 
 class Point(models.Model):
     name = models.CharField(max_length=20, unique=True)
@@ -10,4 +11,4 @@ class Point(models.Model):
 class Measurement(models.Model):
     point = models.ForeignKey(Point, on_delete=models.CASCADE)
     temperature = models.FloatField(blank=False)
-    time = models.DateTimeField(auto_now_add=True)
+    time = models.DateTimeField(default=datetime.now())
