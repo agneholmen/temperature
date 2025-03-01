@@ -4,5 +4,24 @@
 
 {% block content %}
 <h2>Statistics</h2>
-<p>Here you will be able to view statistics.</p>
+<div class="temperature-table-container">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Point</th>
+                <th>Time</th>
+                <th>Temp</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for measurement in temperatures %}
+            <tr>
+                <td>{{ measurement.point }}</td>
+                <td>{{ measurement.time }}</td>
+                <td>{{ measurement.temperature }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock content %}
