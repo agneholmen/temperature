@@ -16,7 +16,7 @@
         <tbody>
             {% for measurement in temperatures %}
             <tr>
-                <td>{{ measurement.point }}</td>
+                <td><a href="{% url 'statistics_point' measurement.point_id %}">{{ measurement.point }}</a></td>
                 <td>{{ measurement.time }}</td>
                 <td>{{ measurement.temperature }}</td>
             </tr>

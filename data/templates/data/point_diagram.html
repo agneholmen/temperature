@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Statistics for point {{ point.name }}{% endblock title %}
+
+{% block content %}
+<p>Statistics for point</p>
+<div id="chart-container">
+    <canvas id="chart"></canvas>
+</div>
+{% endblock content %}
+
+{% block js_include %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+{% endblock js_include %}
+{% block js_code %}
+<script>
+    const chart_data = {
+        "yData": {{ chart_data.y_data|safe }},
+        "xData": {{ chart_data.x_data|safe }},
+    };
+
+    const ctx = document.querySelector('#chart');
+
+    document.addEventListener('DOMContentLoaded', function() {
+        createChart(chart_data);
+    });
+
+    function createChart(data) {
+        let chartStatus = Chart.getChart("chart");
+        if (chartStatus != undefined) {
+            chartStatus.destroy();
+        }
+
+        return new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: data['xData'],
+                    datasets: [{
+                        bordercolor: "blue",
+                        data: data['yData'],
+                        fill: false
+                    }]
+                },
+                options: {}
+            }
+        );
+    }
+</script>
+{% endblock js_code %}
