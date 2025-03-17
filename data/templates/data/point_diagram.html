@@ -3,7 +3,15 @@
 {% block title %}Statistics for point {{ point.name }}{% endblock title %}
 
 {% block content %}
-<p>Statistics for point</p>
+<h2>Statistics for point {{ point.name }}</h2>
+<div id="select-chart-container">
+    <label for="select-chart">Select a range</label>
+    <select name="select-chart" id="select-chart">
+        <option value="1">Last hour</option>
+        <option value="8" selected>Last 8 hours</option>
+        <option value="24">Last 24 hours</option>
+    </select>
+</div>
 <div id="chart-container">
     <canvas id="chart"></canvas>
 </div>
@@ -20,10 +28,33 @@
     };
 
     const ctx = document.querySelector('#chart');
+    const selector = document.querySelector('#select-chart');
 
     document.addEventListener('DOMContentLoaded', function() {
         createChart(chart_data);
     });
+
+    selector.addEventListener("change", function(event) {
+        let value = event.target.value;
+        let url = `/data/statistics/point/{{ point.id }}/data/${value}`
+
+        htmx.ajax("GET", url, {
+            "target": "#chart-container",
+            "swap": "none",
+            "trigger": "load"
+        });
+    });
+
+    document.body.addEventListener("htmx:afterRequest", function(event) {
+        let jsonResponse = JSON.parse(event.detail.xhr.responseText);
+
+        let updated_chart_data = {
+            "yData": jsonResponse.y_data,
+            "xData": jsonResponse.x_data,
+        };
+
+        createChart(updated_chart_data);
+    })
 
     function createChart(data) {
         let chartStatus = Chart.getChart("chart");
@@ -36,6 +67,7 @@
                 data: {
                     labels: data['xData'],
                     datasets: [{
+                        label: "Temperatures",
                         bordercolor: "blue",
                         data: data['yData'],
                         fill: false
